@@ -42,12 +42,11 @@ namespace mantis_tests
             string message = manager.Mail.GetLastMail(account);
             Match match = Regex.Match(message, @"http://\S*");
             return match.Value;
-
         }
 
         private void OpenRegistrationForm()
         {
-            driver.FindElement(By.XPath("//a[contains(@class, 'back-to-login-link pull-left')]")).Click();
+            driver.FindElement(By.XPath("//a[contains(@href, 'manage_user_create_page.php')]")).Click();
         }
 
         private void SubmitRegistration()

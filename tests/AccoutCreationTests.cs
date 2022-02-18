@@ -22,19 +22,25 @@ namespace mantis_tests
             }
         }
 
-        public static Random rnd = new Random();
-
         [Test]
-        public void TestAccontRegistration()
+        public void TestAccountRegistration()
         {
-            int uniqueNumber = rnd.Next(0, 999);
             AccountData account = new AccountData()
             {
-                Name = $"testuser{uniqueNumber}",
+                Name = $"testuser",
                 Password = "password",
-                Email = $"testuser{uniqueNumber}@localhost.localdomain"
+                Email = $"testuser@localhost.localdomain"
             };
 
+            List<AccountData> accounts = app.Admin.GetAllAccounts();
+
+            AccountData existingAccount = accounts.Find(x => x.Name == account.Name);
+
+            if (existingAccount != null)
+            {
+                app.Admin.DeleteAccount(existingAccount);
+            }
+                
             app.James.Delete(account);
             app.James.Add(account);
 

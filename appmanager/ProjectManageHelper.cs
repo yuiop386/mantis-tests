@@ -9,7 +9,9 @@ namespace mantis_tests
 {
     public class ProjectManageHelper : HelperBase
     {
-        public ProjectManageHelper(ApplicationManager manager) : base(manager) { }
+        public ProjectManageHelper(ApplicationManager manager) : base(manager)
+        {
+        }
 
         private List<ProjectData> projectCache = null;
 
@@ -44,7 +46,6 @@ namespace mantis_tests
             OpenProject();
             InitProjectRemoval();
             SubmitProjectRemoval();
-
         }
 
         private void SubmitProjectRemoval()
@@ -63,27 +64,32 @@ namespace mantis_tests
             driver.FindElement(By.XPath("//table[@class='table table-striped table-bordered table-condensed table-hover']/tbody/tr/td/a")).Click();
         }
 
-        public List<ProjectData> GetProjectList()
+        public List<ProjectData> GetProjectList(AccountData account)
         {
             if (projectCache == null)
             {
-                manager.Menu.OpenProjectMenu();
                 projectCache = new List<ProjectData>();
-                ICollection<IWebElement> elements = driver.FindElements(By.XPath("//table[@class='table table-striped table-bordered table-condensed table-hover']/tbody/tr/td/a"));
-
-                foreach (var element in elements)
+                Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
+                Mantis.ProjectData[] projectData = client.mc_projects_get_user_accessible(account.Name, account.Password);
+                foreach (var project in projectData)
                 {
                     projectCache.Add(new ProjectData()
                     {
-                        Name = element.Text,
+                        Id = project.id,
+                        Description = project.description,
+                        Name = project.name
                     });
                 }
             }
-
             return new List<ProjectData>(projectCache);
         }
 
-        public int GetProjectCount()
+        public int GetProjectCount(AccountData account)
+        {
+            return GetProjectList(account).Count;
+        }
+
+        public int GetProjectCount_old(AccountData account)
         {
             return driver.FindElements(By.XPath("//table[@class='table table-striped table-bordered table-condensed table-hover']/tbody/tr/td/a")).Count;
         }

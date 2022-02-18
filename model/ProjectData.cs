@@ -10,11 +10,7 @@ namespace mantis_tests
     {
         public ProjectData()
         {
-
         }
-
-        public string Name { get; set; }
-        public string Description { get; set; }
 
         public bool Equals(ProjectData other)
         {
@@ -46,5 +42,11 @@ namespace mantis_tests
             }
             return Name.CompareTo(other.Name);
         }
+
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+
+        public string Id { get; set; }
     }
 }
