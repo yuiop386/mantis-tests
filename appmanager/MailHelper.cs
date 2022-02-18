@@ -11,7 +11,10 @@ namespace mantis_tests
     public class MailHelper : HelperBase
 
     {
-        public MailHelper(ApplicationManager manager) : base(manager) { }
+        public MailHelper(ApplicationManager manager) : base(manager)
+        {
+        }
+
         public string GetLastMail(AccountData account)
         {
 

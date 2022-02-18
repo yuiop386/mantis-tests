@@ -20,11 +20,15 @@ namespace mantis_tests
         private ApplicationManager()
         {
             driver = new ChromeDriver();
-            baseURL = "http://localhost:8080";
+            driver.Manage().Window.Maximize();
+            baseURL = "http://localhost:8080/mantisbt-2.25.2";
             Registration = new RegistrationHelper(this);
             Ftp = new FtpHelper(this);
             James = new JamesHelper(this);
             Mail = new MailHelper(this);
+            Login = new LoginHelper(this);
+            Menu = new ManageMenuHelper(this);
+            Project = new ProjectManageHelper(this);
         }
 
         ~ApplicationManager()
@@ -56,6 +60,11 @@ namespace mantis_tests
             {
                 return driver;
             }
+
+            set
+            {
+                driver = value;
+            }
         }
 
         public RegistrationHelper Registration { get; set; }
@@ -65,5 +74,11 @@ namespace mantis_tests
         public JamesHelper James { get; set; }
 
         public MailHelper Mail { get; set; }
+
+        public LoginHelper Login { get; set; }
+
+        public ManageMenuHelper Menu { get; set; }
+
+        public ProjectManageHelper Project { get; set; }
     }
 }

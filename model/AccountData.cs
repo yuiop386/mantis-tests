@@ -12,6 +12,12 @@ namespace mantis_tests
         {
         }
 
+        public AccountData(string name, string password)
+        {
+            Name = name;
+            Password = password;
+        }
+
         public string Name { get; set; }
 
         public string Password { get; set; }

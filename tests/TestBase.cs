@@ -11,7 +11,7 @@ namespace mantis_tests
         protected ApplicationManager app;
         public static Random Rnd = new Random();
 
-        [OneTimeSetUp]
+        [SetUp]
         public void SetupApplicationManager()
         {
             app = ApplicationManager.GetInstance();

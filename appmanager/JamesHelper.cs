@@ -10,7 +10,9 @@ namespace mantis_tests
 {
     public class JamesHelper : HelperBase
     {
-        public JamesHelper(ApplicationManager manager) : base(manager) { }
+        public JamesHelper(ApplicationManager manager) : base(manager)
+        {
+        }
 
         public void Delete(AccountData account)
         {

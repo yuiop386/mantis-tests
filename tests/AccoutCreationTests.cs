@@ -11,7 +11,7 @@ namespace mantis_tests
     [TestFixture]
     class AccountCreationTests : TestBase
     {
-        [OneTimeSetUp]
+        [SetUp]
         public void setUpConfig()
         {
             string localPath = TestContext.CurrentContext.TestDirectory + @"\config_inc.php";
@@ -41,7 +41,7 @@ namespace mantis_tests
             app.Registration.Register(account);
         }
 
-        [OneTimeTearDown]
+        [TearDown]
         public void restoreConfig()
         {
             app.Ftp.RestoreBackupFile("/config_inc.php");
