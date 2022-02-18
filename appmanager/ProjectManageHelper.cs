@@ -64,31 +64,6 @@ namespace mantis_tests
             driver.FindElement(By.XPath("//table[@class='table table-striped table-bordered table-condensed table-hover']/tbody/tr/td/a")).Click();
         }
 
-        public List<ProjectData> GetProjectList(AccountData account)
-        {
-            if (projectCache == null)
-            {
-                projectCache = new List<ProjectData>();
-                Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
-                Mantis.ProjectData[] projectData = client.mc_projects_get_user_accessible(account.Name, account.Password);
-                foreach (var project in projectData)
-                {
-                    projectCache.Add(new ProjectData()
-                    {
-                        Id = project.id,
-                        Description = project.description,
-                        Name = project.name
-                    });
-                }
-            }
-            return new List<ProjectData>(projectCache);
-        }
-
-        public int GetProjectCount(AccountData account)
-        {
-            return GetProjectList(account).Count;
-        }
-
         public int GetProjectCount_old(AccountData account)
         {
             return driver.FindElements(By.XPath("//table[@class='table table-striped table-bordered table-condensed table-hover']/tbody/tr/td/a")).Count;

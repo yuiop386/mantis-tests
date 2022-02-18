@@ -20,37 +20,23 @@ namespace mantis_tests
             app.Login.Login(account);
             app.Menu.OpenProjectMenu();
 
-            if (app.Project.GetProjectCount(account) == 0)
+            if (app.Api.GetProjectCount(account) == 0)
             {
                 ProjectData project = new ProjectData()
                 {
                     Name = $"PRT_created {rnd.Next(0, 999)}",
                     Description = "PRT_created",
                 };
-                app.Api.Create(project, account);
+                app.Api.Create(project, account);    
             }
 
-            //to compare api vs browser
-            app.Driver.Url = "http://localhost:8080/mantisbt-2.25.2/manage_overview_page.php";
-            app.Driver.Url = "http://localhost:8080/mantisbt-2.25.2/manage_proj_page.php";
-
-            List<ProjectData> oldData = app.Project.GetProjectList(account);
-
-            //to compare api vs browser
-            int count = app.Project.GetProjectCount_old(account);
+            List<ProjectData> oldData = app.Api.GetProjectList(account);
 
             ProjectData projectToRemove = oldData[0];
 
             app.Api.Remove(projectToRemove, account);
 
-            //to compare api vs browser
-            app.Driver.Url = "http://localhost:8080/mantisbt-2.25.2/manage_overview_page.php";
-            app.Driver.Url = "http://localhost:8080/mantisbt-2.25.2/manage_proj_page.php";
-
-            List<ProjectData> newData = app.Project.GetProjectList(account);
-
-            //to compare api vs browser
-            int newCount = app.Project.GetProjectCount_old(account);
+            List<ProjectData> newData = app.Api.GetProjectList(account);
 
             Assert.AreEqual(oldData.Count - 1, newData.Count);
 

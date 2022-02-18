@@ -25,11 +25,11 @@ namespace mantis_tests
             app.Login.Login(account);
             app.Menu.OpenProjectMenu();
 
-            List<ProjectData> oldData = app.Project.GetProjectList(account);
+            List<ProjectData> oldData = app.Api.GetProjectList(account);
 
             app.Project.Create(project);
 
-            List<ProjectData> newData = app.Project.GetProjectList(account);
+            List<ProjectData> newData = app.Api.GetProjectList(account);
 
             Assert.AreEqual(oldData.Count + 1, newData.Count);
 

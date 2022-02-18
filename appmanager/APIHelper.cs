@@ -15,6 +15,33 @@ namespace mantis_tests
         {
         }
 
+        private List<ProjectData> apiCache = null;
+
+        public List<ProjectData> GetProjectList(AccountData account)
+        {
+            if (apiCache == null)
+            {
+                apiCache = new List<ProjectData>();
+                Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
+                Mantis.ProjectData[] projectData = client.mc_projects_get_user_accessible(account.Name, account.Password);
+                foreach (var project in projectData)
+                {
+                    apiCache.Add(new ProjectData()
+                    {
+                        Id = project.id,
+                        Description = project.description,
+                        Name = project.name
+                    });
+                }
+            }
+            return new List<ProjectData>(apiCache);
+        }
+
+        public int GetProjectCount(AccountData account)
+        {
+            return GetProjectList(account).Count;
+        }
+
         public void CreateNewIssue(AccountData account, ProjectData project, IssueData issueData)
         {
             Mantis.MantisConnectPortTypeClient client = new Mantis.MantisConnectPortTypeClient();
@@ -25,6 +52,7 @@ namespace mantis_tests
             issue.project = new Mantis.ObjectRef();
             issue.project.id = project.Id;
             client.mc_issue_add(account.Name, account.Password, issue);
+            apiCache = null;
         }
 
         public void Create(ProjectData projectData, AccountData account)
@@ -35,6 +63,7 @@ namespace mantis_tests
             project.description = projectData.Description;
             project.name = projectData.Name;
             client.mc_project_add(account.Name, account.Password, project);
+            apiCache = null;
         }
 
         public void Remove(ProjectData projectData, AccountData account)
@@ -45,6 +74,7 @@ namespace mantis_tests
             project.description = projectData.Description;
             project.name = projectData.Name;
             client.mc_project_delete(account.Name, account.Password, project.id);
+            apiCache = null;
         }
     }
 }
